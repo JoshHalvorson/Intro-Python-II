@@ -13,7 +13,7 @@ class Room:
     def __str__(self):
         return f'Room: {self.name}\nDescription: {self.description}'
 
-    def __repr(self):
+    def __repr__(self):
         return f'Room({repr(self.name)}, {repr(self.description)})'
 
     
