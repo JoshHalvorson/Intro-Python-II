@@ -1,5 +1,22 @@
 from room import Room
 from player import Player
+from item import Item
+
+# Declare items to be put int rooms
+items = [
+    Item('Sword', 'A sword'),
+    Item('Shield', 'A Shield'),
+    Item('Coins', 'Coins'),
+    Item('Shovel', 'A Shovel'),
+    Item('Book', 'A Book'),
+    Item('Health Potion', 'A Health Potion'),
+    Item('Spear', 'A Spear'),
+    Item('Staff', 'A Staff'),
+    Item('Pants', 'A Pants'),
+    Item('Helmet', 'A Helmet'),
+    Item('Chest Armor', 'Chest Armor'),
+    Item('Boots', 'Boots'),
+]
 
 # Declare all the rooms
 
@@ -56,7 +73,9 @@ def main():
     player = Player('Josh', room['outside'])
 
     while True:
+        player.current_room.addItems(items)
         print(f'\n{player.current_room}')
+        print(f'{player.current_room.checkForItems()}')
         room_to_move = input('Select direction to move in (n = north, e = east, s = south, w = west, q = quit): ')
         if room_to_move == 'n':
             if player.current_room.n_to != None:
@@ -80,6 +99,10 @@ def main():
                 print('Cant move in that direction!')
         elif room_to_move == 'q':
             break
+
+
+
+        
 
 if __name__ == '__main__':
   main()
