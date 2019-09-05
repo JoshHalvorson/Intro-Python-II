@@ -117,6 +117,8 @@ def main():
             print(f'\n{player.get_items()}')
         elif command.lower() == 'search':
             print(f'\n{player.current_room.checkForItems()}')
+        elif command.lower() == 'help':
+            print(help())
         elif command.lower() == 'q':
             break
 
