@@ -1,4 +1,22 @@
 from room import Room
+from player import Player
+from item import Item
+
+# Declare items to be put int rooms
+items = [
+    Item('Sword', 'A sword'),
+    Item('Shield', 'A Shield'),
+    Item('Coins', 'Coins'),
+    Item('Shovel', 'A Shovel'),
+    Item('Book', 'A Book'),
+    Item('Spear', 'A Spear'),
+    Item('Staff', 'A Staff'),
+    Item('Pants', 'A Pants'),
+    Item('Helmet', 'A Helmet'),
+    Item('Boots', 'Boots'),
+    Item('Potion', 'A Potion'),
+    Item('Armor', 'Armor'),
+]
 
 # Declare all the rooms
 
@@ -49,3 +67,74 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+for r in room.values():
+    r.addItems(items)
+
+def main():
+    player = Player('Josh', room['outside'])
+    print('\nHere is a list of commands, type "help" to see them again')
+    print(help())
+    while True:
+        print('\n-------------------------------')
+        print(f'\n{player.current_room}')
+        command = input('\nEnter a command: ')
+        if command.lower() == 'n':
+            if player.current_room.n_to != None:
+                player.current_room = player.current_room.n_to
+            else:
+                print('\nCant move in that direction!')
+        elif command.lower() == 's':
+            if player.current_room.s_to != None:
+                player.current_room = player.current_room.s_to
+            else:
+                print('\nCant move in that direction!')
+        elif command.lower() == 'e':
+            if player.current_room.e_to != None:
+                player.current_room = player.current_room.e_to
+            else:
+                print('\nCant move in that direction!')
+        elif command.lower() == 'w':
+            if player.current_room.w_to != None:
+                player.current_room = player.current_room.w_to
+            else:
+                print('\nCant move in that direction!')
+        elif len(command.split(' ')) > 1:
+            parts = command.split(' ')
+            if parts[0].lower() == 'take' or parts[0].lower() == 'get':
+                for i in items:
+                    if i.name.lower() == parts[1].lower():
+                       if i in player.current_room.items:
+                           print(player.on_take(i))
+                           player.current_room.items.remove(i)
+            elif parts[0].lower() == 'drop':
+                for i in items:
+                    if i.name.lower() == parts[1].lower():
+                       if i in player.items:
+                           print(player.on_drop(i))
+                           player.current_room.items.append(i)
+        elif command.lower() == 'i':
+            print(f'\n{player.get_items()}')
+        elif command.lower() == 'search':
+            print(f'\n{player.current_room.checkForItems()}')
+        elif command.lower() == 'help':
+            print(help())
+        elif command.lower() == 'q':
+            break
+
+def help():
+    return ''' 
+    n - north
+    e - east
+    s - south
+    w - west
+    i - inventory
+    q - quit
+    search - searches room for items
+    take "item name" - picks an item up
+    drop "item name" - drops an item
+    help - shows help'''
+
+if __name__ == '__main__':
+  main()
+    
