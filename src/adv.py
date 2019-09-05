@@ -9,13 +9,13 @@ items = [
     Item('Coins', 'Coins'),
     Item('Shovel', 'A Shovel'),
     Item('Book', 'A Book'),
-    Item('Health Potion', 'A Health Potion'),
     Item('Spear', 'A Spear'),
     Item('Staff', 'A Staff'),
     Item('Pants', 'A Pants'),
     Item('Helmet', 'A Helmet'),
-    Item('Chest Armor', 'Chest Armor'),
     Item('Boots', 'Boots'),
+    Item('Potion', 'A Potion'),
+    Item('Armor', 'Armor'),
 ]
 
 # Declare all the rooms
@@ -68,41 +68,70 @@ room['treasure'].s_to = room['narrow']
 #
 # If the user enters "q", quit the game.
 
+for r in room.values():
+    r.addItems(items)
 
 def main():
     player = Player('Josh', room['outside'])
-
+    print('\nHere is a list of commands, type "help" to see them again')
+    print(help())
     while True:
-        player.current_room.addItems(items)
+        print('\n-------------------------------')
         print(f'\n{player.current_room}')
-        print(f'{player.current_room.checkForItems()}')
-        room_to_move = input('Select direction to move in (n = north, e = east, s = south, w = west, q = quit): ')
-        if room_to_move == 'n':
+        room_to_move = input('\nSelect direction to move in: ')
+        if room_to_move.lower() == 'n':
             if player.current_room.n_to != None:
                 player.current_room = player.current_room.n_to
             else:
-                print('Cant move in that direction!')
-        elif room_to_move == 's':
+                print('\nCant move in that direction!')
+        elif room_to_move.lower() == 's':
             if player.current_room.s_to != None:
                 player.current_room = player.current_room.s_to
             else:
-                print('Cant move in that direction!')
-        elif room_to_move == 'e':
+                print('\nCant move in that direction!')
+        elif room_to_move.lower() == 'e':
             if player.current_room.e_to != None:
                 player.current_room = player.current_room.e_to
             else:
-                print('Cant move in that direction!')
-        elif room_to_move == 'w':
+                print('\nCant move in that direction!')
+        elif room_to_move.lower() == 'w':
             if player.current_room.w_to != None:
                 player.current_room = player.current_room.w_to
             else:
-                print('Cant move in that direction!')
-        elif room_to_move == 'q':
+                print('\nCant move in that direction!')
+        elif len(room_to_move.split(' ')) > 1:
+            parts = room_to_move.split(' ')
+            if parts[0].lower() == 'take' or parts[0].lower() == 'get':
+                for i in items:
+                    if i.name.lower() == parts[1].lower():
+                       if i in player.current_room.items:
+                           print(player.on_take(i))
+                           player.current_room.items.remove(i)
+            elif parts[0].lower() == 'drop':
+                for i in items:
+                    if i.name.lower() == parts[1].lower():
+                       if i in player.items:
+                           print(player.on_drop(i))
+                           player.current_room.items.append(i)
+        elif room_to_move.lower() == 'i':
+            print(f'\n{player.get_items()}')
+        elif room_to_move.lower() == 'search':
+            print(f'\n{player.current_room.checkForItems()}')
+        elif room_to_move.lower() == 'q':
             break
 
-
-
-        
+def help():
+    return ''' 
+    n - north
+    e - east
+    s - south
+    w - west
+    i - inventory
+    q - quit
+    search - searches room for items
+    take "item name" - picks an item up
+    drop "item name" - drops an item
+    help - shows help'''
 
 if __name__ == '__main__':
   main()

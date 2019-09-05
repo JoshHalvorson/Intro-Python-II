@@ -5,6 +5,24 @@ class Player:
     def __init__(self, name, current_room):
         self.name = name
         self.current_room = current_room
+        self.items = []
+
+    def on_take(self, item):
+        self.items.append(item)
+        return f'\nYou picked up {item.description}'
+
+    def on_drop(self, item):
+        self.items.remove(item)
+        return f'\nYou dropped {item.description}'
+
+    def get_items(self):
+        s = '\nYour Items: \n'
+        for i in self.items:
+            s += f'{i}\n'
+        if len(self.items) < 1:
+            s = '\nYou have no items...'
+        s.rstrip("\n\r")
+        return s
 
     def __str__(self):
         return f'Player: {self.name}\n{self.current_room}'
