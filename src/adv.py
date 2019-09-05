@@ -78,29 +78,29 @@ def main():
     while True:
         print('\n-------------------------------')
         print(f'\n{player.current_room}')
-        room_to_move = input('\nSelect direction to move in: ')
-        if room_to_move.lower() == 'n':
+        command = input('\nEnter a command: ')
+        if command.lower() == 'n':
             if player.current_room.n_to != None:
                 player.current_room = player.current_room.n_to
             else:
                 print('\nCant move in that direction!')
-        elif room_to_move.lower() == 's':
+        elif command.lower() == 's':
             if player.current_room.s_to != None:
                 player.current_room = player.current_room.s_to
             else:
                 print('\nCant move in that direction!')
-        elif room_to_move.lower() == 'e':
+        elif command.lower() == 'e':
             if player.current_room.e_to != None:
                 player.current_room = player.current_room.e_to
             else:
                 print('\nCant move in that direction!')
-        elif room_to_move.lower() == 'w':
+        elif command.lower() == 'w':
             if player.current_room.w_to != None:
                 player.current_room = player.current_room.w_to
             else:
                 print('\nCant move in that direction!')
-        elif len(room_to_move.split(' ')) > 1:
-            parts = room_to_move.split(' ')
+        elif len(command.split(' ')) > 1:
+            parts = command.split(' ')
             if parts[0].lower() == 'take' or parts[0].lower() == 'get':
                 for i in items:
                     if i.name.lower() == parts[1].lower():
@@ -113,11 +113,11 @@ def main():
                        if i in player.items:
                            print(player.on_drop(i))
                            player.current_room.items.append(i)
-        elif room_to_move.lower() == 'i':
+        elif command.lower() == 'i':
             print(f'\n{player.get_items()}')
-        elif room_to_move.lower() == 'search':
+        elif command.lower() == 'search':
             print(f'\n{player.current_room.checkForItems()}')
-        elif room_to_move.lower() == 'q':
+        elif command.lower() == 'q':
             break
 
 def help():

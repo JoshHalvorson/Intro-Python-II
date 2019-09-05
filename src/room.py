@@ -14,12 +14,13 @@ class Room:
         self.items = []
 
     def checkForItems(self):
-        s = f'You see these items:\n'
+        s = f'\nYou see these items:\n'
         if len(self.items) > 0:
             for i in self.items:
                 s += str(i) + '\n'
         else:
             s = "No items"
+        s.rstrip("\n\r")
         return s
 
     def addItems(self, items_list):
